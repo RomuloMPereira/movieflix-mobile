@@ -21,10 +21,20 @@ const text = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 20,
         textTransform: "uppercase",
+    },
+    navText: {
+        fontSize: 25,
+        fontWeight: "bold",
+        color: colors.black,
+        marginLeft: 20,
+    },
+    navLogoutText: {
+
     }
 })
 
 const theme = StyleSheet.create({
+    // Login
     container: {
         flex: 1,
         justifyContent: "center",
@@ -47,9 +57,6 @@ const theme = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
-    form: {
-
-    },
     textInput: {
         width: 300,
         height: 50,
@@ -67,6 +74,17 @@ const theme = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginTop: 45,
+    },
+    // Navbar
+    navBtnLogout: {
+        width: 100,
+        height: 30,
+        borderWidth: 1,
+        borderColor: colors.black,
+        borderRadius: 10,
+        alignItems: "center",
+        justifyContent: "center",
+        marginRight: 10,
     }
 })
 
