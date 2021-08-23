@@ -132,6 +132,7 @@ const theme = StyleSheet.create({
     },
     movieImage: {
         width: "100%",
+        height: 170,
     },
     movieDescriptionContainer: {
         paddingTop: 10,
