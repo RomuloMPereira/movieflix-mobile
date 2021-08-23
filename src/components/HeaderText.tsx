@@ -1,14 +1,21 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
+import { useEffect } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
+import { isAuthenticated } from '../services/auth';
 import { text } from '../styles';
 
 const HeaderText: React.FC = () => {
     const navigation = useNavigation();
 
+    async function handleClick() {
+        const result = await isAuthenticated();
+        result ? navigation.navigate("Catalog") : navigation.navigate("Login");
+    }
+
     return (
         <TouchableOpacity
-            onPress={() => navigation.navigate("Catalog")}
+            onPress={() => handleClick()}
         >
             <Text style={text.navText}>MovieFlix</Text>
         </TouchableOpacity>

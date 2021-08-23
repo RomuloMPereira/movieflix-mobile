@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { isAuthenticated, login } from '../services/auth';
 import { theme, text } from '../styles/index';
 
 const Login: React.FC = () => {
@@ -9,10 +10,12 @@ const Login: React.FC = () => {
         username: "",
         password: ""
     });
+    const [userFetchData, setUserFetchData] = useState({});
 
     async function handleLogin() {
-        console.warn(userInfo);
-        navigation.navigate("Catalog");
+        const data = await login(userInfo);
+        setUserFetchData(userInfo);
+        isAuthenticated() ? navigation.navigate("Catalog") : navigation.navigate("Login");
     }
 
     return (
@@ -21,7 +24,7 @@ const Login: React.FC = () => {
                 <Text style={text.loginTitle}>
                     Login
                 </Text>
-                <View style={theme.form}>
+                <View>
                     <TextInput
                         placeholder="Email"
                         autoCapitalize="none"
