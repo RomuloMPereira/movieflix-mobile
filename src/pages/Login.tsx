@@ -11,11 +11,19 @@ const Login: React.FC = () => {
         password: ""
     });
     const [userFetchData, setUserFetchData] = useState({});
+    const [hasError, setHasError] = useState(false);
 
     async function handleLogin() {
-        const data = await login(userInfo);
-        setUserFetchData(userInfo);
-        isAuthenticated() ? navigation.navigate("Catalog") : navigation.navigate("Login");
+        const data = await login(userInfo)
+            .then(() => {
+                setHasError(false);
+                setUserFetchData(userInfo);
+                navigation.navigate("Catalog");
+            })
+            .catch(() => {
+                navigation.navigate("Login");
+                setHasError(true);
+            });
     }
 
     return (
@@ -24,6 +32,11 @@ const Login: React.FC = () => {
                 <Text style={text.loginTitle}>
                     Login
                 </Text>
+                {hasError && (
+                    <View style={theme.loginError}>
+                        <Text style={text.loginErrorText}>Usuário ou senha inválidos</Text>
+                    </View>
+                )}
                 <View>
                     <TextInput
                         placeholder="Email"

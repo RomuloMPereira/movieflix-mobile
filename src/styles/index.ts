@@ -22,6 +22,10 @@ const text = StyleSheet.create({
         fontSize: 20,
         textTransform: "uppercase",
     },
+    loginErrorText: {
+        color: colors.primary,
+        fontSize: 20,
+    },
     navText: {
         fontSize: 25,
         fontWeight: "bold",
@@ -91,6 +95,9 @@ const theme = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginTop: 45,
+    },
+    loginError: {
+        marginBottom: 20,
     },
     // Navbar
     navBtnLogout: {
