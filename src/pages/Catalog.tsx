@@ -1,13 +1,54 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView } from 'react-native';
+import MovieCard from '../components/MovieCard';
+import { theme } from '../styles';
+import movieTest from '../assets/movie-test.png';
 
 const Catalog: React.FC = () => {
+
+    const movies = [{
+        id: 0,
+        title: "Teste Título",
+        subTitle: "Teste Subtítulo",
+        year: 2021,
+        imgUrl: movieTest,
+        synopsis: "TESTE DESCRIÇÃO",
+        genre: { name: "Comédia" },
+    },
+    {
+        id: 1,
+        title: "Teste 2 Título",
+        subTitle: "Teste 2 Subtítulo",
+        year: 2021,
+        imgUrl: movieTest,
+        synopsis: "TESTE 2 DESCRIÇÃO",
+        genre: { name: "Comédia" },
+    },
+    {
+        id: 2,
+        title: "Teste 3 Título",
+        subTitle: "Teste 3 Subtítulo",
+        year: 2021,
+        imgUrl: movieTest,
+        synopsis: "TESTE 3 DESCRIÇÃO",
+        genre: { name: "Comédia" },
+    },
+    {
+        id: 3,
+        title: "Teste 2 Título",
+        subTitle: "Teste 2 Subtítulo",
+        year: 2021,
+        imgUrl: movieTest,
+        synopsis: "TESTE 2 DESCRIÇÃO",
+        genre: { name: "Comédia" },
+    }];
+
     return (
-        <View>
-            <Text>
-                Bem vindo ao Catálogo
-            </Text>
-        </View>
+        <ScrollView contentContainerStyle={theme.scrollContainer}>
+            {movies.map((movie) => (
+                <MovieCard {...movie} key={movie.id} />
+            ))}
+        </ScrollView>
     );
 }
 
