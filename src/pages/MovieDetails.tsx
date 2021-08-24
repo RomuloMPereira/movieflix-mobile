@@ -2,21 +2,39 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Image, Text, TextInput, TouchableOpacity, View, ScrollView } from 'react-native';
 import { colors, text, theme } from '../styles';
 import star from '../assets/star.png';
-import { Movie } from '../types/Movie';
-import { getProduct } from '../services';
+import { Movie, Review } from '../types/Movie';
+import { getMovie, postReview } from '../services';
+import Toast from 'react-native-tiny-toast';
 
 const MovieDetails: React.FC = ({ route: { params: { id } } }) => {
     const [loading, setLoading] = useState(false);
     const [movie, setMovie] = useState<Movie>();
+    const [review, setReview] = useState<Review>();
 
     const fillMovie = useCallback(() => {
         setLoading(true);
-        getProduct(id)
+        getMovie(id)
             .then(response => setMovie(response.data))
             .finally(() => {
                 setLoading(false);
             });
     }, []);
+
+    const handleSave = () => {
+        setLoading(true);
+        const data = {
+            ...review,
+            movieId: id
+        }
+        postReview(data)
+            .then(() => {
+                Toast.showSuccess("Salvo com sucesso");
+                setReview({ text: "" });
+                fillMovie();
+            })
+            .catch(() => Toast.show("Erro ao salvar"))
+            .finally(() => setLoading(false));
+    }
 
     useEffect(() => {
         fillMovie();
@@ -40,17 +58,24 @@ const MovieDetails: React.FC = ({ route: { params: { id } } }) => {
                                 </View>
                             </View>
                         </View>
-                        <View style={theme.formContainer}>
-                            <TextInput
-                                placeholder="Deixe sua avaliação aqui"
-                                style={theme.formInput}
-                            />
-                            <TouchableOpacity style={theme.formButton}>
-                                <Text style={text.formButtonText}>Salvar Avaliação</Text>
-                            </TouchableOpacity>
-                        </View>
+                        {loading ? (<ActivityIndicator size="large" color={colors.primary} />) : (
+                            <View style={theme.formContainer}>
+                                <TextInput
+                                    placeholder="Deixe sua avaliação aqui"
+                                    style={theme.formInput}
+                                    value={review?.text}
+                                    onChangeText={(e) => setReview({ ...review, text: e })}
+                                />
+                                <TouchableOpacity
+                                    style={theme.formButton}
+                                    onPress={() => handleSave()}
+                                >
+                                    <Text style={text.formButtonText}>Salvar Avaliação</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
                         {movie?.reviews?.map(review => (
-                            <View style={theme.reviewsContainer}>
+                            <View style={theme.reviewsContainer} key={review.id}>
                                 <View style={theme.reviewContainer}>
                                     <View style={theme.reviewNameContainer}>
                                         <Image source={star} style={theme.reviewImage} />

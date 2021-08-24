@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios, { AxiosRequestConfig } from "axios";
+import { Review } from "../types/Movie";
 
 const baseUrl = "https://movieflixcatalog.herokuapp.com/";
 
@@ -12,7 +13,7 @@ export async function userToken() {
     return token;
 }
 
-export async function getProducts(params) {
+export async function getMovies(params) {
     const authToken = await userToken();
     const res = await api.get(`/movies?page=${params.page}`, {
         headers: {
@@ -22,7 +23,7 @@ export async function getProducts(params) {
     return res;
 }
 
-export async function getProduct(id: number) {
+export async function getMovie(id: number) {
     const authToken = await userToken();
     const res = await api.get(`/movies/${id}`, {
         headers: {
@@ -31,3 +32,14 @@ export async function getProduct(id: number) {
     });
     return res;
 }
+
+export async function postReview(data: Review) {
+    const authToken = await userToken();
+    const res = await api.post("/reviews", data, {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        }
+    });
+    return res;
+}
+
