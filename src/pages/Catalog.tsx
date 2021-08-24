@@ -5,6 +5,7 @@ import { colors, theme } from '../styles';
 import { getMovies } from '../services';
 import { Genre, MoviesResponse } from '../types/Movie';
 import Pagination from '../components/Pagination';
+import { Search } from '../components';
 
 
 const Catalog: React.FC = () => {
@@ -16,6 +17,7 @@ const Catalog: React.FC = () => {
     const fillMovies = useCallback(() => {
         const params = {
             page: activePage,
+            genreId: genre?.id,
         }
 
         setIsLoading(true);
@@ -24,7 +26,11 @@ const Catalog: React.FC = () => {
             .finally(() => {
                 setIsLoading(false);
             });
-    }, [activePage]);
+    }, [activePage, genre]);
+
+    const handleChangeGenre = (genre: Genre) => {
+        setGenre(genre);
+    }
 
     useEffect(() => {
         fillMovies();
@@ -32,6 +38,7 @@ const Catalog: React.FC = () => {
 
     return (
         <ScrollView contentContainerStyle={theme.scrollContainer}>
+            <Search genre={genre} handleChangeGenre={handleChangeGenre} />
             {isLoading ? (<ActivityIndicator size="large" color={colors.primary} />) :
                 (moviesResponse?.content.map((movie) => (
                     <MovieCard movie={movie} key={movie.id} />

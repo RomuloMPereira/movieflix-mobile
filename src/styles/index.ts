@@ -180,6 +180,33 @@ const theme = StyleSheet.create({
         justifyContent: "center",
         marginRight: 10,
     },
+    //Search
+    modalContainer: {
+        width: "100%",
+        height: 60,
+        backgroundColor: colors.mediumGray,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 10,
+    },
+    modalContent: {
+        width: "100%",
+        height: "60%",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 10,
+        padding: 20,
+    },
+    modalItem: {
+        width: "100%",
+        backgroundColor: colors.lightGray,
+        padding: 10,
+        marginVertical: 5,
+        borderRadius: 10,
+    },
+    searchSelect: {
+        width: "100%",
+    },
     //Details page
     detailsContainer: {
         backgroundColor: colors.darkGray,

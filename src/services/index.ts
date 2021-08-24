@@ -15,7 +15,7 @@ export async function userToken() {
 
 export async function getMovies(params) {
     const authToken = await userToken();
-    const res = await api.get(`/movies?page=${params.page}`, {
+    const res = await api.get(`/movies?page=${params.page}&genreId=${params.genreId}`, {
         headers: {
             Authorization: `Bearer ${authToken}`,
         }
@@ -36,6 +36,16 @@ export async function getMovie(id: number) {
 export async function postReview(data: Review) {
     const authToken = await userToken();
     const res = await api.post("/reviews", data, {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        }
+    });
+    return res;
+}
+
+export async function getGenres() {
+    const authToken = await userToken();
+    const res = await api.get("/genres", {
         headers: {
             Authorization: `Bearer ${authToken}`,
         }
