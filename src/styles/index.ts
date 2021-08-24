@@ -51,6 +51,11 @@ const text = StyleSheet.create({
         fontWeight: "bold",
         color: colors.primary,
         marginTop: 5,
+    },
+    paginationText: {
+        fontSize: 18,
+        fontWeight: "bold",
+        color: colors.white,
     }
 })
 
@@ -139,6 +144,25 @@ const theme = StyleSheet.create({
         paddingBottom: 20,
         paddingHorizontal: 15,
     },
+    //Pagination
+    paginationContainer: {
+        margin: 25,
+    },
+    paginationCoreContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+    },
+    paginationItem: {
+        width: 40,
+        height: 40,
+        backgroundColor: colors.mediumGray,
+        borderRadius: 50,
+        alignItems: "center",
+        justifyContent: "center",
+        marginRight: 10,
+    }
 })
 
 export { colors, text, theme }

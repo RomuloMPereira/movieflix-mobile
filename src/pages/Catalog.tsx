@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, ScrollView } from 'react-native';
+import { ActivityIndicator, ScrollView, View } from 'react-native';
 import MovieCard from '../components/MovieCard';
 import { colors, theme } from '../styles';
 import { getProducts } from '../services';
 import { Genre, MoviesResponse } from '../types/Movie';
+import Pagination from '../components/Pagination';
 
 
 const Catalog: React.FC = () => {
@@ -14,7 +15,7 @@ const Catalog: React.FC = () => {
 
     const fillMovies = useCallback(() => {
         const params = {
-            page: 0,
+            page: activePage,
         }
 
         setIsLoading(true);
@@ -23,7 +24,7 @@ const Catalog: React.FC = () => {
             .finally(() => {
                 setIsLoading(false);
             });
-    }, []);
+    }, [activePage]);
 
     useEffect(() => {
         fillMovies();
@@ -36,6 +37,15 @@ const Catalog: React.FC = () => {
                     <MovieCard movie={movie} key={movie.id} />
                 )))
             }
+            {moviesResponse && (
+                <View style={theme.paginationContainer}>
+                    <Pagination
+                        totalPages={moviesResponse.totalPages}
+                        activePage={activePage}
+                        onChange={page => setActivePage(page)}
+                    />
+                </View>
+            )}
         </ScrollView>
     );
 }
