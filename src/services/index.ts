@@ -15,7 +15,7 @@ export async function userToken() {
 
 export async function getMovies(params) {
     const authToken = await userToken();
-    const res = await api.get(`/movies?page=${params.page}&genreId=${params.genreId}`, {
+    const res = await api.get(`/movies?page=${params.page}${params.genreId !== null ? `&genreId=${params.genreId}` : ``}`, {
         headers: {
             Authorization: `Bearer ${authToken}`,
         }

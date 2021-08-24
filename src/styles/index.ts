@@ -206,6 +206,9 @@ const theme = StyleSheet.create({
     },
     searchSelect: {
         width: "100%",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-end",
     },
     //Details page
     detailsContainer: {

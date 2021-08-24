@@ -12,7 +12,10 @@ const Catalog: React.FC = () => {
     const [moviesResponse, setMoviesResponse] = useState<MoviesResponse>();
     const [activePage, setActivePage] = useState(0);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [genre, setGenre] = useState<Genre>();
+    const [genre, setGenre] = useState<Genre>({
+        id: 0,
+        name: "",
+    });
 
     const fillMovies = useCallback(() => {
         const params = {
