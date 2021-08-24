@@ -21,3 +21,13 @@ export async function getProducts(params) {
     });
     return res;
 }
+
+export async function getProduct(id: number) {
+    const authToken = await userToken();
+    const res = await api.get(`/movies/${id}`, {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        }
+    });
+    return res;
+}

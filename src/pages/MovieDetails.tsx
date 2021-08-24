@@ -1,12 +1,26 @@
-import React, { useState } from 'react';
-import { ActivityIndicator, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ActivityIndicator, Image, Text, TextInput, TouchableOpacity, View, ScrollView } from 'react-native';
 import { colors, text, theme } from '../styles';
 import star from '../assets/star.png';
-import movie from '../assets/movie-test.png';
-import { ScrollView } from 'react-native-gesture-handler';
+import { Movie } from '../types/Movie';
+import { getProduct } from '../services';
 
-const MovieDetails: React.FC = () => {
+const MovieDetails: React.FC = ({ route: { params: { id } } }) => {
     const [loading, setLoading] = useState(false);
+    const [movie, setMovie] = useState<Movie>();
+
+    const fillMovie = useCallback(() => {
+        setLoading(true);
+        getProduct(id)
+            .then(response => setMovie(response.data))
+            .finally(() => {
+                setLoading(false);
+            });
+    }, []);
+
+    useEffect(() => {
+        fillMovie();
+    }, [fillMovie]);
 
     return (
         <ScrollView style={theme.detailsContainer}>
@@ -14,14 +28,14 @@ const MovieDetails: React.FC = () => {
                 (
                     <>
                         <View style={theme.detailsCard}>
-                            <Image source={movie} style={theme.detailsImage} />
+                            <Image source={{ uri: movie?.imgUrl }} style={theme.detailsImage} />
                             <View style={theme.detailsContent}>
-                                <Text style={text.movieTitle}>Título</Text>
-                                <Text style={text.movieSubtitle}>Subtítulo</Text>
-                                <Text style={text.movieYear}>Ano</Text>
+                                <Text style={text.movieTitle}>{movie?.title}</Text>
+                                <Text style={text.movieSubtitle}>{movie?.subtitle}</Text>
+                                <Text style={text.movieYear}>{movie?.year}</Text>
                                 <View style={theme.descriptionContainer}>
                                     <Text style={text.detailsDescription}>
-                                        Descrição
+                                        {movie?.synopsis}
                                     </Text>
                                 </View>
                             </View>
@@ -35,17 +49,20 @@ const MovieDetails: React.FC = () => {
                                 <Text style={text.formButtonText}>Salvar Avaliação</Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={theme.reviewsContainer}>
-                            <View style={theme.reviewContainer}>
-                                <View style={theme.reviewNameContainer}>
-                                    <Image source={star} style={theme.reviewImage} />
-                                    <Text style={text.reviewName}>Nome</Text>
-                                </View>
-                                <View style={theme.reviewContent}>
-                                    <Text style={text.reviewText}>Comentário</Text>
+                        {movie?.reviews?.map(review => (
+                            <View style={theme.reviewsContainer}>
+                                <View style={theme.reviewContainer}>
+                                    <View style={theme.reviewNameContainer}>
+                                        <Image source={star} style={theme.reviewImage} />
+                                        <Text style={text.reviewName}>{review.user.name}</Text>
+                                    </View>
+                                    <View style={theme.reviewContent}>
+                                        <Text style={text.reviewText}>{review.text}</Text>
+                                    </View>
                                 </View>
                             </View>
-                        </View>
+                        ))
+                        }
                     </>
                 )
             }
