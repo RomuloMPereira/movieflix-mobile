@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Image, ImageSourcePropType, Text, TouchableOpacity, View } from 'react-native';
 import { text, theme } from '../styles';
@@ -8,8 +9,13 @@ type Props = {
 }
 
 const MovieCard: React.FC<Props> = ({ movie }) => {
+    const navigation = useNavigation();
+    const { id } = movie;
     return (
-        <TouchableOpacity style={theme.movieCard}>
+        <TouchableOpacity
+            style={theme.movieCard}
+            onPress={() => navigation.navigate("MovieDetails", { id })}
+        >
             <Image source={{ uri: movie.imgUrl }} style={theme.movieImage} />
             <View style={theme.movieDescriptionContainer}>
                 <Text style={text.movieTitle}>{movie.title}</Text>
